@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import tokenModule from './token_module.js'
 
 Vue.use(Vuex)
 
 const vuex = new Vuex.Store({
   state: {
-    token: ''
+
   },
   mutations: {
 
@@ -15,6 +16,9 @@ const vuex = new Vuex.Store({
   },
   actions: {
 
+  },
+  modules: {
+    token: tokenModule
   }
 })
 

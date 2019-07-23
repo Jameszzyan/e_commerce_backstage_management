@@ -39,19 +39,30 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           sendAdminData(this.ruleForm).then((result) => {
-            if (result.status === 200) {
-              this.$message({
+            if (result.data.meta.status === 200) {
+              // 将后台传过来的token值以vuex的形式存储
+              var token = result.data.data.token
+              sessionStorage.setItem('token', token)
+              this.$store.dispatch('token/storeTokenCommit', token)
+              /*   this.$message({
                 message: '恭喜你成功登录！',
                 type: 'success'
-              })
+              }) */
               this.$router.push({
                 name: 'home'
               })
+            } else {
+              this.$message({
+                message: '登陆失败，请重新输入',
+                type: 'error'
+              })
             }
+          }).catch((err) => {
+            console.log(err)
           })
         } else {
           this.$message({
-            message: '登录不成功',
+            message: '用户或者密码不能为空',
             type: 'error'
           })
           return false
