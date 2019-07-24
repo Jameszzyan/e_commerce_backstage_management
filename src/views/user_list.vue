@@ -28,59 +28,57 @@
     </el-row>
 
     <!-- 用户信息表格部分 -->
-    <template>
-      <el-table :data="userList" style="width: 100%" border>
-        <!-- 索引项 -->
-        <el-table-column type="index" width="50" align="center"></el-table-column>
-        <!-- 用户名 -->
-        <el-table-column label="用户名" width="180" align="center">
-          <template slot-scope="scope">
-            <el-tag size="medium">{{ scope.row.username }}</el-tag>
-          </template>
-        </el-table-column>
-        <!-- 邮箱项 -->
-        <el-table-column label="邮箱" width="300" align="center">
-          <template slot-scope="scope">
-            <el-tag size="medium">{{ scope.row.email }}</el-tag>
-          </template>
-        </el-table-column>
-        <!-- 电话项 -->
-        <el-table-column label="电话" width="250" align="center">
-          <template slot-scope="scope">
-            <el-tag size="medium">{{ scope.row.mobile }}</el-tag>
-          </template>
-        </el-table-column>
-        <!-- 状态项 -->
-        <el-table-column label="状态" width="180" align="center">
-          <template slot-scope="scope">
-            <el-switch
-              v-model="scope.row.mg_state"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-              @change="changeStatus(scope.row.id,scope.row.mg_state)"
-            ></el-switch>
-          </template>
-        </el-table-column>
-        <!-- 操作项 -->
-        <el-table-column label="操作" align="center" width="300">
-          <template slot-scope="scope">
-            <el-button size="mini" type="info" @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
-            <el-button size="mini" type="success" @click="handleAllot(scope.row)">分配角色</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <!-- 分页显示部分 -->
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="userCheck.pagenum"
-        :page-sizes="[3, 6, 9, 12]"
-        :page-size="userCheck.pagesize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="this.relatedData.total"
-      ></el-pagination>
-    </template>
+    <el-table :data="userList" style="width: 100%" border>
+      <!-- 索引项 -->
+      <el-table-column type="index" width="50" align="center"></el-table-column>
+      <!-- 用户名 -->
+      <el-table-column label="用户名" width="180" align="center">
+        <template slot-scope="scope">
+          <el-tag size="medium">{{ scope.row.username }}</el-tag>
+        </template>
+      </el-table-column>
+      <!-- 邮箱项 -->
+      <el-table-column label="邮箱" width="300" align="center">
+        <template slot-scope="scope">
+          <el-tag size="medium">{{ scope.row.email }}</el-tag>
+        </template>
+      </el-table-column>
+      <!-- 电话项 -->
+      <el-table-column label="电话" width="250" align="center">
+        <template slot-scope="scope">
+          <el-tag size="medium">{{ scope.row.mobile }}</el-tag>
+        </template>
+      </el-table-column>
+      <!-- 状态项 -->
+      <el-table-column label="状态" width="180" align="center">
+        <template slot-scope="scope">
+          <el-switch
+            v-model="scope.row.mg_state"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            @change="changeStatus(scope.row.id,scope.row.mg_state)"
+          ></el-switch>
+        </template>
+      </el-table-column>
+      <!-- 操作项 -->
+      <el-table-column label="操作" align="center" width="300">
+        <template slot-scope="scope">
+          <el-button size="mini" type="info" @click="handleEdit(scope.row)">编辑</el-button>
+          <el-button size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+          <el-button size="mini" type="success" @click="handleAllot(scope.row)">分配角色</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <!-- 分页显示部分 -->
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="userCheck.pagenum"
+      :page-sizes="[3, 6, 9, 12]"
+      :page-size="userCheck.pagesize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="this.relatedData.total"
+    ></el-pagination>
 
     <!-- 添加用户弹出框部分 -->
     <el-dialog title="添加用户" :visible.sync="dialogAddFormVisible">
@@ -151,11 +149,11 @@
           </el-select>
         </el-form-item>
       </el-form>
-       <!-- 确定和取消相关操作 -->
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogRoleFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="userAllot">确 定</el-button>
-        </div>
+      <!-- 确定和取消相关操作 -->
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogRoleFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="userAllot">确 定</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -378,9 +376,9 @@ export default {
     handleAllot (row) {
       this.roleForm.username = row.username
       this.roleForm.id = row.id
-      getRoleData().then((result) => {
+      getRoleData().then(result => {
         if (result.data.meta.status === 200) {
-          /* console.log(result) */
+          console.log(result)
           this.roleOptions = result.data.data
           if (row.rid !== null) {
             this.roleForm.rid = row.rid
@@ -400,18 +398,20 @@ export default {
           type: 'error'
         })
       } else {
-        changeRole(this.roleForm).then((result) => {
-          if (result.data.meta.status === 200) {
-            this.$message({
-              message: '角色分配成功',
-              type: 'success'
-            })
-            this.dialogRoleFormVisible = false
-            this.getData()
-          }
-        }).catch((err) => {
-          console.log(err)
-        })
+        changeRole(this.roleForm)
+          .then(result => {
+            if (result.data.meta.status === 200) {
+              this.$message({
+                message: '角色分配成功',
+                type: 'success'
+              })
+              this.dialogRoleFormVisible = false
+              this.getData()
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
       }
     },
 

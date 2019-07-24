@@ -30,6 +30,16 @@ const router = new Router({
           name: 'user_list',
           path: 'user_list',
           component: () => import('../views/user_list.vue')
+        },
+        {
+          name: 'role_list',
+          path: 'role_list',
+          component: () => import('../views/role_list.vue')
+        },
+        {
+          name: 'right_list',
+          path: 'right_list',
+          component: () => import('../views/right_list.vue')
         }
       ]
     }
