@@ -1,6 +1,8 @@
 <template>
   <div class="home">
     <el-container>
+
+      <!-- 左侧栏（包括logo和菜单栏） -->
       <el-aside width="auto">
         <div class="logo"></div>
         <el-menu
@@ -12,38 +14,29 @@
           text-color="#fff"
           active-text-color="#ffd04b"
         >
-          <el-submenu index="1">
+          <el-submenu :index="first.id + ''" v-for="first in menuList" :key="first.id">
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>用户管理</span>
+              <span>{{first.authName}}</span>
             </template>
-            <el-menu-item index="user_list">
+            <el-menu-item :index="'/home/' + first.path + '/' + second.path" v-for="second in first.children" :key="second.id">
               <i class="el-icon-menu"></i>
-              <span>用户列表</span>
-            </el-menu-item>
-          </el-submenu>
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>权限管理</span>
-            </template>
-            <el-menu-item index="role_list">
-              <i class="el-icon-menu"></i>
-              <span>角色列表</span>
-            </el-menu-item>
-            <el-menu-item index="right_list">
-              <i class="el-icon-menu"></i>
-              <span>权限列表</span>
+              <span>{{second.authName}}</span>
             </el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>
+
+      <!-- 包括页眉以及主要内容 -->
       <el-container>
+        <!-- 页眉部分 -->
         <el-header>
           <span class="myicon myicon-menu toggle-btn" @click="iscollapse = !iscollapse"></span>
           <span class="system-title">电商后台管理系统</span>
           <a href="javascrpt:;" class="welcome">退出</a>
         </el-header>
+
+        <!-- 主要内容（根据不同页面跳转路由渲染组件生成） -->
         <el-main>
           <router-view></router-view>
         </el-main>
@@ -53,13 +46,26 @@
 </template>
 
 <script>
+import { getMenus } from '../api/home_axios'
 export default {
   data () {
     return {
-      iscollapse: false
+      iscollapse: false,
+      menuList: []
     }
   },
-  methods: {}
+  methods: {
+    async init () {
+      let result = await getMenus()
+      // console.log(result)
+      if (result.data.meta.status === 200) {
+        this.menuList = result.data.data
+      }
+    }
+  },
+  mounted () {
+    this.init()
+  }
 }
 </script>
 
@@ -73,7 +79,7 @@ export default {
   // 如果是展开状态,那么宽度就是200px,如果是合并状态,宽度:auto
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
-    min-height: 400px;
+    min-height: 600px;
   }
   .el-container {
     height: 100%;

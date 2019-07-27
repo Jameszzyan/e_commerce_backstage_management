@@ -27,19 +27,42 @@ const router = new Router({
           component: () => import('../views/welcome.vue')
         },
         {
-          name: 'user_list',
-          path: 'user_list',
-          component: () => import('../views/user_list.vue')
+          name: 'users',
+          path: 'users/users',
+          component: () => import('../views/users.vue')
         },
         {
-          name: 'role_list',
-          path: 'role_list',
-          component: () => import('../views/role_list.vue')
+          name: 'roles',
+          path: 'rights/roles',
+          component: () => import('../views/roles.vue')
         },
         {
-          name: 'right_list',
-          path: 'right_list',
-          component: () => import('../views/right_list.vue')
+          name: 'rights',
+          path: 'rights/rights',
+          component: () => import('../views/rights.vue')
+        },
+        {
+          name: 'goods',
+          path: 'goods/goods',
+          component: () => import('../views/goods.vue'),
+          redirect: { name: 'goods_list' },
+          children: [
+            {
+              name: 'goods_list',
+              path: 'list',
+              component: () => import('../views/goods_list.vue')
+            },
+            {
+              name: 'goods_add',
+              path: 'add',
+              component: () => import('../views/goods_add.vue')
+            }
+          ]
+        },
+        {
+          name: 'charts',
+          path: 'reports/reports',
+          component: () => import('../views/charts.vue')
         }
       ]
     }

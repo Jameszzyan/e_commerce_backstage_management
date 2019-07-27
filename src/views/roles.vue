@@ -3,7 +3,7 @@
     <!-- 面包屑部分 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{path:'/home/role_list'}">权限管理</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{path:'/home/rights/roles'}">权限管理</el-breadcrumb-item>
       <el-breadcrumb-item>角色列表</el-breadcrumb-item>
     </el-breadcrumb>
 
@@ -205,7 +205,7 @@ export default {
     // 初始化角色列表方法
     async init () {
       let result = await getAllRoleData()
-      console.log(result)
+      // console.log(result)
       if (result.data.meta.status === 200) {
         this.roleList = result.data.data
       }
@@ -330,9 +330,11 @@ export default {
       var original = this
       arr.forEach(function (item) {
         item.children.forEach(function (item) {
-          item.children.forEach(function (item) {
-            original.rightIds.push(item.id)
-          })
+          if (item.children) {
+            item.children.forEach(function (item) {
+              original.rightIds.push(item.id)
+            })
+          }
         })
       })
     },
@@ -345,6 +347,8 @@ export default {
         this.roleId = row.id
         this.rightIds = []
         this.getIdValue(row.children)
+        // console.log(this.rightList)
+        // console.log(this.rightIds)
       }
       this.dialogAuthorizeRoleVisible = true
     },
@@ -352,12 +356,21 @@ export default {
     // 更改角色权限
     async authorizeRole () {
       var rightArray = this.$refs.rightTree.getCheckedKeys()
-      var str = '' + rightArray[0]
-      for (var i = 1; i < rightArray.length; i++) {
-        str += ',' + rightArray[i]
+      var str = ''
+      if (rightArray.length !== 0) {
+        str += rightArray[0]
+        for (var i = 1; i < rightArray.length; i++) {
+          str += ',' + rightArray[i]
+        }
+        var fatherRightArray = this.$refs.rightTree.getHalfCheckedKeys()
+        fatherRightArray.forEach(function (item) {
+          str += ',' + item
+        })
       }
+      // console.log(rightArray)
+      // console.log(str)
       let result = await updateRoleRights(this.roleId, str)
-      if (result.data.meta.status == 200) {
+      if (result.data.meta.status === 200) {
         this.$message({
           type: 'success',
           message: '更改角色权限成功'

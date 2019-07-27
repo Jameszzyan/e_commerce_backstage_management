@@ -3,7 +3,7 @@
     <!-- 面包屑部分 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>用户管理</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{path:'/home/users/users'}">用户管理</el-breadcrumb-item>
       <el-breadcrumb-item>用户列表</el-breadcrumb-item>
     </el-breadcrumb>
 
@@ -69,6 +69,7 @@
         </template>
       </el-table-column>
     </el-table>
+
     <!-- 分页显示部分 -->
     <el-pagination
       @size-change="handleSizeChange"
@@ -169,7 +170,7 @@ import {
 } from '../api/admin_axios.js'
 
 // 获取角色相关信息的接口方法
-import { getRoleData, changeRole } from '../api/role_axios.js'
+import { getAllRoleData, changeRole } from '../api/role_axios.js'
 
 export default {
   data () {
@@ -376,9 +377,10 @@ export default {
     handleAllot (row) {
       this.roleForm.username = row.username
       this.roleForm.id = row.id
-      getRoleData().then(result => {
+      getAllRoleData().then(result => {
+        console.log(result)
         if (result.data.meta.status === 200) {
-          console.log(result)
+          // console.log(result)
           this.roleOptions = result.data.data
           if (row.rid !== null) {
             this.roleForm.rid = row.rid

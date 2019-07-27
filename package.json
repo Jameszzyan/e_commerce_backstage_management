@@ -10,9 +10,13 @@
   "dependencies": {
     "axios": "^0.19.0",
     "core-js": "^2.6.5",
+    "echarts": "^4.2.1",
     "element-ui": "^2.10.1",
     "qs": "^6.7.0",
     "vue": "^2.6.10",
+    "vue-charts": "^0.2.1",
+    "vue-echarts": "^4.0.3",
+    "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.0.7",
     "vuex": "^3.1.1"
   },

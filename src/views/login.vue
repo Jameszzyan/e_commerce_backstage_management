@@ -39,11 +39,18 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           sendAdminData(this.ruleForm).then((result) => {
+            console.log(result)
             if (result.data.meta.status === 200) {
-              // 将后台传过来的token值以vuex的形式存储
+              // 将后台传过来的token值存储到sessionStorage以及vuex中
               var token = result.data.data.token
               sessionStorage.setItem('token', token)
               this.$store.dispatch('token/storeTokenCommit', token)
+              // 将后台传过来的id,rid存储到sessionStorage以及vuex中
+              var id = result.data.data.id
+              var rid = result.data.data.rid
+              sessionStorage.setItem('rid', rid)
+              sessionStorage.setItem('id', id)
+              this.$store.dispatch('storeIdsCommit', id, rid)
               /*   this.$message({
                 message: '恭喜你成功登录！',
                 type: 'success'
