@@ -69,7 +69,7 @@
           <el-col :span="22">
             <el-checkbox-group v-model="dynamicOutputAttrList[index].attr_vals">
               <el-checkbox :label="second" v-for="(second,index) in first.attr_vals"
-              :key="index" border style="margin-bottom:5px"></el-checkbox>
+              :key="index" border style="margin-bottom:5px;background-color:rgb(236, 245, 255)"></el-checkbox>
             </el-checkbox-group>
           </el-col>
         </el-row>
@@ -316,6 +316,7 @@ export default {
               obj.attr_vals = arr
               this.dynamicOutputAttrList.push(obj)
             })
+            console.log(this.dynamicAttrList)
             // this.attrsSendList = [...this.dynamicOutputAttrList]
             this.attrsSendList = JSON.parse(JSON.stringify(this.dynamicOutputAttrList))
             this.attrsSendList.forEach((item) => {
@@ -372,6 +373,7 @@ export default {
     this.initCategories()
     this.dynamicShow = true
     this.staticShow = true
+    // console.log(this.$route)
   },
 
   updated () {

@@ -117,7 +117,15 @@ export default {
     },
 
     // 编辑商品函数
-    handleEdit (row) {},
+    handleEdit (row) {
+      var pid = row.goods_id
+      this.$router.push({
+        path: `/home/goods/goods/edit`,
+        query: {
+          pid
+        }
+      })
+    },
 
     // 删除商品函数
     handleDelete (row) {},

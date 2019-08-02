@@ -56,6 +56,11 @@ const router = new Router({
               name: 'goods_add',
               path: 'add',
               component: () => import('../views/goods_add.vue')
+            },
+            {
+              name: 'goods_edit',
+              path: 'edit',
+              component: () => import('../views/goods_add.vue')
             }
           ]
         },
@@ -71,7 +76,9 @@ const router = new Router({
 
 // 导航守卫，保证只有对应的用户能够取到数据
 router.beforeEach((to, from, next) => {
-  if (store.state.token.token || sessionStorage.getItem('token') || to.path === '/login') {
+  var token = sessionStorage.getItem('token')
+  store.dispatch('token/storeTokenCommit', token)
+  if (store.state.token.token || to.path === '/login') {
     next()
   } else {
     next({
